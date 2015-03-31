@@ -16,6 +16,7 @@ void ApplicationClass::InitAppVariables()
 	pBoundingSphere2 = new BoundingSphereClass();
 
 	m_pBSMngr = BoundingSphereManagerSingleton::GetInstance();
+	boundingBoxManager = BoundingBoxManagerSingleton::GetInstance();
 
 	m_m4Creeper = glm::translate(vector3(3.0f,0.0f,0.0f));
 
@@ -80,7 +81,7 @@ void ApplicationClass::Update (void)
 	static float fRunTime = 0.0f;
 
 	fRunTime += fTimeSpan; //update the run time count
-	matrix4 m4Steve = glm::rotate(matrix4(IDENTITY), fRunTime * 15, vector3( 0.0f,-1.0f, 0.0f));
+	matrix4 m4Steve = matrix4(IDENTITY);//glm::rotate(matrix4(IDENTITY), fRunTime * 15, vector3( 0.0f,-1.0f, 0.0f));
 	matrix4 m4Zombie = glm::translate(vector3(-6.0f, 0.0f, 0.0f));
 	matrix4 m4Cow = glm::translate(vector3(-3.0f, 0.0f, 0.0f));
 	matrix4 m4Pig = glm::translate(vector3(6.0f, 0.0f, 0.0f));
@@ -104,6 +105,7 @@ void ApplicationClass::Update (void)
 #pragma endregion
 
 #pragma region Bounding Sphere Manager
+	/*
 	m_pBSMngr->GenerateBoundingSphere("Steve");
 	m_pBSMngr->GenerateBoundingSphere("Creeper");
 	m_pBSMngr->GenerateBoundingSphere("Cow");
@@ -119,8 +121,27 @@ void ApplicationClass::Update (void)
 	m_pBSMngr->CalculateCollision();
 
 	m_pBSMngr->AddSphereToRenderList("ALL");
+	*/
 #pragma endregion
 
+#pragma region Bounding Box Manager
+	boundingBoxManager->GenerateBoundingBox("Steve");
+	boundingBoxManager->GenerateBoundingBox("Creeper");
+	boundingBoxManager->GenerateBoundingBox("Cow");
+	boundingBoxManager->GenerateBoundingBox("Zombie");
+	boundingBoxManager->GenerateBoundingBox("Pig");
+
+
+	boundingBoxManager->SetBoundingBoxSpace(m4Steve, "Steve");
+	boundingBoxManager->SetBoundingBoxSpace(m_m4Creeper, "Creeper");
+	boundingBoxManager->SetBoundingBoxSpace(m4Cow, "Cow");
+	boundingBoxManager->SetBoundingBoxSpace(m4Pig, "Pig");
+	boundingBoxManager->SetBoundingBoxSpace(m4Zombie, "Zombie");
+
+	boundingBoxManager->CalculateCollision();
+
+	boundingBoxManager->AddBoxToRenderList("ALL");
+#pragma endregion
 	m_pMeshMngr->AddInstanceToRenderList();
 	
 	//First person camera movement

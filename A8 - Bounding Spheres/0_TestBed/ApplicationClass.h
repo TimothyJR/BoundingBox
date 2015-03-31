@@ -9,6 +9,8 @@ Date: 2014/10
 #include "ME\MyEngine.h"
 #include "BoundingSphereClass.h"
 #include "BoundingSphereManagerSingleton.h"
+#include "BoundingBoxManagerSingleton.h"
+#include "BoundingBoxClass.h"
 #include <SFML\Graphics.hpp>
 #include <chrono>
 
@@ -21,6 +23,7 @@ class ApplicationClass
 	bool m_bForceNewConfig;// Using the new configuration for the project
 
 	BoundingSphereManagerSingleton* m_pBSMngr;//Manager of the Bounding Spheres
+	BoundingBoxManagerSingleton* boundingBoxManager;
 
 	BoundingSphereClass* pBoundingSphere1;
 	BoundingSphereClass* pBoundingSphere2;
